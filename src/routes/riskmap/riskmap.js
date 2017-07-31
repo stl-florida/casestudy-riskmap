@@ -6,57 +6,75 @@ export class RiskMap {
     this.ea = EventAggregator;
 
     this.layers = {
-      flood: {
-        ve: {
+      flood: [
+        {
           id: "FLDHVE",
-          url: "b0mn3fbb",
           type: 'fill',
+          source: {
+            url: 'mapbox://asbarve.b0mn3fbb',
+            type: 'vector'
+          },
           paint: {
             "fill-color": "#fccf23",
             "fill-opacity": 0.9
           }
         },
-        ao: {
+        {
           id: 'FLDHAO',
-          url: '1eqmjn9o',
           type: 'fill',
+          source: {
+            url: 'mapbox://asbarve.1eqmjn9o',
+            type: 'vector'
+          },
           paint: {
             "fill-color": "#fc610b",
             "fill-opacity": 0.8
           }
         },
-        ae: {
+        {
           id: 'FLDHAE',
-          url: '4cou1y2j',
           type: 'fill',
+          source: {
+            url: 'mapbox://asbarve.4cou1y2j',
+            type: 'vector'
+          },
           paint: {
             "fill-color": "#c44d3f",
             "fill-opacity": 0.7
           }
         },
-        ah: {
+        {
           id: 'FLDHAH',
-          url: '758t0cbw',
           type: 'fill',
+          source: {
+            url: 'mapbox://asbarve.758t0cbw',
+            type: 'vector'
+          },
           paint: {
             "fill-color": "#6576a5",
             "fill-opacity": 0.5
           }
         },
-        x: {
+        {
           id: 'FLDHX',
-          url: '44qg0o2f',
           type: 'fill',
+          source: {
+            url: 'mapbox://asbarve.44qg0o2f',
+            type: 'vector'
+          },
           paint: {
             "fill-color": "#368bd8",
             "fill-opacity": 0.25
           }
         }
-      },
-      stormsurge: {
+      ],
+      stormsurge: [{
         id: 'stormsurge',
-        url: '41947bz4',
         type: 'fill',
+        source: {
+          url: 'mapbox://asbarve.41947bz4',
+          type: 'vector'
+        },
         paint: {
           "fill-color": {
             "property": "CAT",
@@ -111,15 +129,32 @@ export class RiskMap {
             ]
           }
         }
-      },
-      groundwater: {
-        id: 'ground_water',
-        url: 'aor4wycf',
-        type: 'raster',
-        paint: {
-
+      }],
+      groundwater: [
+        {
+          id: 'groundwater',
+          type: 'fill',
+          source: {
+            url: 'mapbox://asbarve.5wvk9kun',
+            type: 'vector'
+          },
+          paint: {
+            "fill-color": '#ff0000'
+          }
+        },
+        {
+          id: 'salt_water',
+          type: 'line',
+          source: {
+            url: 'mapbox://asbarve.87xhq483',
+            type: 'vector'
+          },
+          paint: {
+            'line-color': '#f05022',
+            'line-width': 3
+          }
         }
-      }
+      ]
     };
   }
 
@@ -129,48 +164,18 @@ export class RiskMap {
 
   addLayerToMap(layer) {
     var self = this;
-    var source = {url: 'mapbox://asbarve.' + layer.url};
-    switch (layer.type) {
-      case 'fill':
-        source.type = 'vector';
-        break;
-      case 'raster':
-        source.type = 'raster';
-    }
-    if (this.risk !== 'groundwater') {
-      return self.map.addLayer({
-        id: layer.id,
-        type: layer.type,
-        source: source,
-        'source-layer': layer.id,
-        layout: {
-          visibility: 'visible'
-        },
-        paint: layer.paint
-      });
-    } else {
-      return self.map.setStyle({
-        version: 8,
-        sources: {
-          'raster-tiles': {
-            type: 'raster',
-            url: 'mapbox://light-v9',
-            tilesize: 256
-          },
-          'overlay': {
-            type: 'image',
-            url: 'https://raw.githubusercontent.com/stl-florida/casestudy-riskmap/master/assets/groundwater.tif',
-            coordinates: [
-              [-80.8,26.5],
-              [-80.0,26.5],
-              [-80.0,25.9],
-              [-80.8,25.9]
-            ]
-          }
-        }
-      });
-    }
+    return self.map.addLayer({
+      id: layer.id,
+      type: layer.type,
+      source: layer.source,
+      "source-layer": layer.id,
+      layout: {
+        visibility: 'visible'
+      },
+      paint: layer.paint
+    });
   }
+
 
   attached() {
     var self = this;
@@ -190,17 +195,16 @@ export class RiskMap {
     }));
 
     self.map.on('load', () => {
-      if (self.risk === 'flood') {
-        for (let layer_key in self.layers.flood) {
-          self.addLayerToMap(self.layers.flood[layer_key]);
+      for (let group in self.layers) {
+        console.log('checking group: ' + group);
+        if (group === self.risk) {
+          console.log('group ' + group + ' is active');
+          for (let layer of self.layers[group]) {
+            console.log(layer.id);
+            self.addLayerToMap(layer);
+          }
         }
-      } else {
-        self.addLayerToMap(self.layers[self.risk]);
       }
-    });
-
-    self.map.on('zoom', () => {
-      console.log(self.map.getZoom());
     });
   }
 

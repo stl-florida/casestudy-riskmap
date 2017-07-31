@@ -84,8 +84,8 @@ define('resources/index',["exports"], function (exports) {
   exports.configure = configure;
   function configure(config) {}
 });
-define('routes/riskmap/riskmap',["exports", "mapbox-gl"], function (exports, _mapboxGl) {
-  "use strict";
+define('routes/riskmap/riskmap',['exports', 'mapbox-gl'], function (exports, _mapboxGl) {
+  'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
@@ -113,57 +113,69 @@ define('routes/riskmap/riskmap',["exports", "mapbox-gl"], function (exports, _ma
       this.ea = EventAggregator;
 
       this.layers = {
-        flood: {
-          ve: {
-            id: "FLDHVE",
-            url: "b0mn3fbb",
-            type: 'fill',
-            paint: {
-              "fill-color": "#fccf23",
-              "fill-opacity": 0.9
-            }
-          },
-          ao: {
-            id: 'FLDHAO',
-            url: '1eqmjn9o',
-            type: 'fill',
-            paint: {
-              "fill-color": "#fc610b",
-              "fill-opacity": 0.8
-            }
-          },
-          ae: {
-            id: 'FLDHAE',
-            url: '4cou1y2j',
-            type: 'fill',
-            paint: {
-              "fill-color": "#c44d3f",
-              "fill-opacity": 0.7
-            }
-          },
-          ah: {
-            id: 'FLDHAH',
-            url: '758t0cbw',
-            type: 'fill',
-            paint: {
-              "fill-color": "#6576a5",
-              "fill-opacity": 0.5
-            }
-          },
-          x: {
-            id: 'FLDHX',
-            url: '44qg0o2f',
-            type: 'fill',
-            paint: {
-              "fill-color": "#368bd8",
-              "fill-opacity": 0.25
-            }
-          }
-        },
-        stormsurge: {
-          id: 'stormsurge',
-          url: '41947bz4',
+        flood: [{
+          id: "FLDHVE",
           type: 'fill',
+          source: {
+            url: 'mapbox://asbarve.b0mn3fbb',
+            type: 'vector'
+          },
+          paint: {
+            "fill-color": "#fccf23",
+            "fill-opacity": 0.9
+          }
+        }, {
+          id: 'FLDHAO',
+          type: 'fill',
+          source: {
+            url: 'mapbox://asbarve.1eqmjn9o',
+            type: 'vector'
+          },
+          paint: {
+            "fill-color": "#fc610b",
+            "fill-opacity": 0.8
+          }
+        }, {
+          id: 'FLDHAE',
+          type: 'fill',
+          source: {
+            url: 'mapbox://asbarve.4cou1y2j',
+            type: 'vector'
+          },
+          paint: {
+            "fill-color": "#c44d3f",
+            "fill-opacity": 0.7
+          }
+        }, {
+          id: 'FLDHAH',
+          type: 'fill',
+          source: {
+            url: 'mapbox://asbarve.758t0cbw',
+            type: 'vector'
+          },
+          paint: {
+            "fill-color": "#6576a5",
+            "fill-opacity": 0.5
+          }
+        }, {
+          id: 'FLDHX',
+          type: 'fill',
+          source: {
+            url: 'mapbox://asbarve.44qg0o2f',
+            type: 'vector'
+          },
+          paint: {
+            "fill-color": "#368bd8",
+            "fill-opacity": 0.25
+          }
+        }],
+        stormsurge: [{
+          id: 'stormsurge',
+          type: 'fill',
+          source: {
+            url: 'mapbox://asbarve.41947bz4',
+            type: 'vector'
+          },
           paint: {
             "fill-color": {
               "property": "CAT",
@@ -176,13 +188,29 @@ define('routes/riskmap/riskmap',["exports", "mapbox-gl"], function (exports, _ma
               "stops": [["1", 0.7], ["2", 0.6], ["3", 0.5], ["4", 0.4], ["5", 0.3]]
             }
           }
-        },
-        groundwater: {
-          id: 'ground_water',
-          url: 'aor4wycf',
-          type: 'raster',
-          paint: {}
-        }
+        }],
+        groundwater: [{
+          id: 'groundwater',
+          type: 'fill',
+          source: {
+            url: 'mapbox://asbarve.5wvk9kun',
+            type: 'vector'
+          },
+          paint: {
+            "fill-color": '#ff0000'
+          }
+        }, {
+          id: 'salt_water',
+          type: 'line',
+          source: {
+            url: 'mapbox://asbarve.87xhq483',
+            type: 'vector'
+          },
+          paint: {
+            'line-color': '#f05022',
+            'line-width': 3
+          }
+        }]
       };
     }
 
@@ -192,19 +220,11 @@ define('routes/riskmap/riskmap',["exports", "mapbox-gl"], function (exports, _ma
 
     RiskMap.prototype.addLayerToMap = function addLayerToMap(layer) {
       var self = this;
-      var source = { url: 'mapbox://asbarve.' + layer.url };
-      switch (layer.type) {
-        case 'fill':
-          source.type = 'vector';
-          break;
-        case 'raster':
-          source.type = 'raster';
-      }
       return self.map.addLayer({
         id: layer.id,
         type: layer.type,
-        source: source,
-        'source-layer': layer.id,
+        source: layer.source,
+        "source-layer": layer.id,
         layout: {
           visibility: 'visible'
         },
@@ -228,17 +248,29 @@ define('routes/riskmap/riskmap',["exports", "mapbox-gl"], function (exports, _ma
       self.map.addControl(new _mapboxGl2.default.NavigationControl({}));
 
       self.map.on('load', function () {
-        if (self.risk === 'flood') {
-          for (var layer_key in self.layers.flood) {
-            self.addLayerToMap(self.layers.flood[layer_key]);
-          }
-        } else {
-          self.addLayerToMap(self.layers[self.risk]);
-        }
-      });
+        for (var group in self.layers) {
+          console.log('checking group: ' + group);
+          if (group === self.risk) {
+            console.log('group ' + group + ' is active');
+            for (var _iterator = self.layers[group], _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+              var _ref;
 
-      self.map.on('zoom', function () {
-        console.log(self.map.getZoom());
+              if (_isArray) {
+                if (_i >= _iterator.length) break;
+                _ref = _iterator[_i++];
+              } else {
+                _i = _iterator.next();
+                if (_i.done) break;
+                _ref = _i.value;
+              }
+
+              var layer = _ref;
+
+              console.log(layer.id);
+              self.addLayerToMap(layer);
+            }
+          }
+        }
       });
     };
 
