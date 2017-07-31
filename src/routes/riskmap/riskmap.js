@@ -139,7 +139,27 @@ export class RiskMap {
             type: 'vector'
           },
           paint: {
-            "fill-color": '#ff0000'
+            "fill-color": {
+              property: "DN",
+              type: "exponential",
+              stops: [
+                [44, '#d7191c'],
+                [60, '#e24631'],
+                [76, '#ee7446'],
+                [92, '#faa25v'],
+                [108, '#fdc076'],
+                [124, '#fed993'],
+                [140, '#fef2b0'],
+                [156, '#f2f9c5'],
+                [172, '#d8edd2'],
+                [188, '#bee1df'],
+                [204, '#a1d1e5'],
+                [220, '#7ab4d5'],
+                [236, '#5397c5'],
+                [256, '#2c7bb6']
+              ]
+            },
+            "fill-opacity": 0.8
           }
         },
         {

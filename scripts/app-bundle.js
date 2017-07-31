@@ -197,7 +197,12 @@ define('routes/riskmap/riskmap',['exports', 'mapbox-gl'], function (exports, _ma
             type: 'vector'
           },
           paint: {
-            "fill-color": '#ff0000'
+            "fill-color": {
+              property: "DN",
+              type: "exponential",
+              stops: [[44, '#d7191c'], [60, '#e24631'], [76, '#ee7446'], [92, '#faa25v'], [108, '#fdc076'], [124, '#fed993'], [140, '#fef2b0'], [156, '#f2f9c5'], [172, '#d8edd2'], [188, '#bee1df'], [204, '#a1d1e5'], [220, '#7ab4d5'], [236, '#5397c5'], [256, '#2c7bb6']]
+            },
+            "fill-opacity": 0.8
           }
         }, {
           id: 'salt_water',
@@ -298,8 +303,8 @@ define('routes/riskmap/riskmap',['exports', 'mapbox-gl'], function (exports, _ma
   }();
 });
 define('text!app.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./app.css\"></require>\n  \n  <router-view></router-view>\n</template>\n"; });
-define('text!routes/riskmap/riskmap.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./riskmap.css\"></require>\n  <require from=\"mapbox-gl/mapbox-gl.css\"></require>\n\n  <div id=\"mapContainer\">\n  </div>\n</template>\n"; });
 define('text!app.css', ['module'], function(module) { module.exports = "html,\nbody {\n  width: 100%;\n  height: 100%;\n  margin: 0px;\n  padding: 0px;\n}\n"; });
 define('text!resources/styles/themeGuide.css', ['module'], function(module) { module.exports = ""; });
+define('text!routes/riskmap/riskmap.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./riskmap.css\"></require>\n  <require from=\"mapbox-gl/mapbox-gl.css\"></require>\n\n  <div id=\"mapContainer\">\n  </div>\n</template>\n"; });
 define('text!routes/riskmap/riskmap.css', ['module'], function(module) { module.exports = "#mapContainer {\n  width: 100%;\n  height: 100%;\n  margin: 0px;\n  padding: 0px;\n}\n"; });
 //# sourceMappingURL=app-bundle.js.map
