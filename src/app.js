@@ -1,7 +1,7 @@
 export class App {
   configureRouter(config, router) {
     config.title = 'RiskMap';
-    config.options.pushState = true;
+    config.options.pushState = false;
     config.options.root = '/';
     config.map([
       {route: ':risk',   name: 'map',  moduleId: 'routes/riskmap/riskmap'}/*,
