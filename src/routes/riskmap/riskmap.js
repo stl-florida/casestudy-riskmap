@@ -10,6 +10,7 @@ export class RiskMap {
         ve: {
           id: "FLDHVE",
           url: "b0mn3fbb",
+          type: 'fill',
           paint: {
             "fill-color": "#fccf23",
             "fill-opacity": 0.9
@@ -18,6 +19,7 @@ export class RiskMap {
         ao: {
           id: 'FLDHAO',
           url: '1eqmjn9o',
+          type: 'fill',
           paint: {
             "fill-color": "#fc610b",
             "fill-opacity": 0.8
@@ -26,6 +28,7 @@ export class RiskMap {
         ae: {
           id: 'FLDHAE',
           url: '4cou1y2j',
+          type: 'fill',
           paint: {
             "fill-color": "#c44d3f",
             "fill-opacity": 0.7
@@ -34,6 +37,7 @@ export class RiskMap {
         ah: {
           id: 'FLDHAH',
           url: '758t0cbw',
+          type: 'fill',
           paint: {
             "fill-color": "#6576a5",
             "fill-opacity": 0.5
@@ -42,6 +46,7 @@ export class RiskMap {
         x: {
           id: 'FLDHX',
           url: '44qg0o2f',
+          type: 'fill',
           paint: {
             "fill-color": "#368bd8",
             "fill-opacity": 0.25
@@ -51,6 +56,7 @@ export class RiskMap {
       stormsurge: {
         id: 'stormsurge',
         url: '41947bz4',
+        type: 'fill',
         paint: {
           "fill-color": {
             "property": "CAT",
@@ -107,8 +113,9 @@ export class RiskMap {
         }
       },
       groundwater: {
-        id: '',
-        url: '',
+        id: 'ground_water',
+        url: 'aor4wycf',
+        type: 'raster',
         paint: {
 
         }
@@ -122,26 +129,51 @@ export class RiskMap {
 
   addLayerToMap(layer) {
     var self = this;
-    return self.map.addLayer({
-      id: layer.id,
-      type: 'fill',
-      source: {
-        type: 'vector',
-        url: 'mapbox://asbarve.' + layer.url
-      },
-      'source-layer': layer.id,
-      layout: {
-        visibility: 'visible'
-      },
-      paint: layer.paint
-    });
+    var source = {url: 'mapbox://asbarve.' + layer.url};
+    switch (layer.type) {
+      case 'fill':
+        source.type = 'vector';
+        break;
+      case 'raster':
+        source.type = 'raster';
+    }
+    if (this.risk !== 'groundwater') {
+      return self.map.addLayer({
+        id: layer.id,
+        type: layer.type,
+        source: source,
+        'source-layer': layer.id,
+        layout: {
+          visibility: 'visible'
+        },
+        paint: layer.paint
+      });
+    } else {
+      return self.map.setStyle({
+        version: 8,
+        sources: {
+          'raster-tiles': {
+            type: 'raster',
+            url: 'mapbox://light-v9',
+            tilesize: 256
+          },
+          'overlay': {
+            type: 'image',
+            url: 'https://raw.githubusercontent.com/stl-florida/casestudy-riskmap/master/assets/groundwater.tif',
+            coordinates: [
+              [-80.8,26.5],
+              [-80.0,26.5],
+              [-80.0,25.9],
+              [-80.8,25.9]
+            ]
+          }
+        }
+      });
+    }
   }
 
   attached() {
     var self = this;
-
-    console.log('DOM ready');
-    console.log(this.risk);
 
     mapboxgl.accessToken = 'pk.eyJ1IjoiYXNiYXJ2ZSIsImEiOiJjajVvOGdpcmwzejNiMzJvODF2dGFqYWcxIn0.rAJZcytC7dbajv0wzWo8Kw';
     self.map = new mapboxgl.Map({
@@ -165,6 +197,10 @@ export class RiskMap {
       } else {
         self.addLayerToMap(self.layers[self.risk]);
       }
+    });
+
+    self.map.on('zoom', () => {
+      console.log(self.map.getZoom());
     });
   }
 

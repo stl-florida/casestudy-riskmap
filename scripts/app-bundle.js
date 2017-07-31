@@ -84,81 +84,6 @@ define('resources/index',["exports"], function (exports) {
   exports.configure = configure;
   function configure(config) {}
 });
-define('routes/flood/flood',['exports', 'aurelia-framework', '../riskmap/riskmap', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _riskmap, _aureliaEventAggregator) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.Flood = undefined;
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _dec, _class;
-
-  var Flood = exports.Flood = (_dec = (0, _aureliaFramework.inject)(_riskmap.RiskMap, _aureliaEventAggregator.EventAggregator), _dec(_class = function () {
-    function Flood(RiskMap, EventAggregator) {
-      _classCallCheck(this, Flood);
-
-      this.riskmap = RiskMap;
-      this.ea = EventAggregator;
-    }
-
-    Flood.prototype.attached = function attached() {
-      var self = this;
-      var map = self.riskmap.map;
-
-      self.ea.subscribe('doneLoading', function () {
-        for (var layer_key in self.riskmap.layers.flood) {
-          map.addLayerToMap(flood[layer_key]);
-        }
-      });
-    };
-
-    Flood.prototype.detached = function detached() {
-      var self = this;
-      var map = self.riskmap.map;
-      for (var layer_key in self.riskmap.layers.flood) {
-        var id = self.riskmap.layers.flood[layer_key].id;
-        if (map.getLayer(id)) {
-          map.removeLayer(id);
-          map.removeSource(id);
-        }
-      }
-    };
-
-    return Flood;
-  }()) || _class);
-});
-define('routes/gw/gw',["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var Gw = exports.Gw = function () {
-    function Gw() {
-      _classCallCheck(this, Gw);
-    }
-
-    Gw.prototype.attached = function attached() {
-      var self = this;
-    };
-
-    return Gw;
-  }();
-});
 define('routes/riskmap/riskmap',["exports", "mapbox-gl"], function (exports, _mapboxGl) {
   "use strict";
 
@@ -192,6 +117,7 @@ define('routes/riskmap/riskmap',["exports", "mapbox-gl"], function (exports, _ma
           ve: {
             id: "FLDHVE",
             url: "b0mn3fbb",
+            type: 'fill',
             paint: {
               "fill-color": "#fccf23",
               "fill-opacity": 0.9
@@ -200,6 +126,7 @@ define('routes/riskmap/riskmap',["exports", "mapbox-gl"], function (exports, _ma
           ao: {
             id: 'FLDHAO',
             url: '1eqmjn9o',
+            type: 'fill',
             paint: {
               "fill-color": "#fc610b",
               "fill-opacity": 0.8
@@ -208,6 +135,7 @@ define('routes/riskmap/riskmap',["exports", "mapbox-gl"], function (exports, _ma
           ae: {
             id: 'FLDHAE',
             url: '4cou1y2j',
+            type: 'fill',
             paint: {
               "fill-color": "#c44d3f",
               "fill-opacity": 0.7
@@ -216,6 +144,7 @@ define('routes/riskmap/riskmap',["exports", "mapbox-gl"], function (exports, _ma
           ah: {
             id: 'FLDHAH',
             url: '758t0cbw',
+            type: 'fill',
             paint: {
               "fill-color": "#6576a5",
               "fill-opacity": 0.5
@@ -224,6 +153,7 @@ define('routes/riskmap/riskmap',["exports", "mapbox-gl"], function (exports, _ma
           x: {
             id: 'FLDHX',
             url: '44qg0o2f',
+            type: 'fill',
             paint: {
               "fill-color": "#368bd8",
               "fill-opacity": 0.25
@@ -233,6 +163,7 @@ define('routes/riskmap/riskmap',["exports", "mapbox-gl"], function (exports, _ma
         stormsurge: {
           id: 'stormsurge',
           url: '41947bz4',
+          type: 'fill',
           paint: {
             "fill-color": {
               "property": "CAT",
@@ -247,8 +178,9 @@ define('routes/riskmap/riskmap',["exports", "mapbox-gl"], function (exports, _ma
           }
         },
         groundwater: {
-          id: '',
-          url: '',
+          id: 'ground_water',
+          url: 'aor4wycf',
+          type: 'raster',
           paint: {}
         }
       };
@@ -260,13 +192,18 @@ define('routes/riskmap/riskmap',["exports", "mapbox-gl"], function (exports, _ma
 
     RiskMap.prototype.addLayerToMap = function addLayerToMap(layer) {
       var self = this;
+      var source = { url: 'mapbox://asbarve.' + layer.url };
+      switch (layer.type) {
+        case 'fill':
+          source.type = 'vector';
+          break;
+        case 'raster':
+          source.type = 'raster';
+      }
       return self.map.addLayer({
         id: layer.id,
-        type: 'fill',
-        source: {
-          type: 'vector',
-          url: 'mapbox://asbarve.' + layer.url
-        },
+        type: layer.type,
+        source: source,
         'source-layer': layer.id,
         layout: {
           visibility: 'visible'
@@ -277,9 +214,6 @@ define('routes/riskmap/riskmap',["exports", "mapbox-gl"], function (exports, _ma
 
     RiskMap.prototype.attached = function attached() {
       var self = this;
-
-      console.log('DOM ready');
-      console.log(this.risk);
 
       _mapboxGl2.default.accessToken = 'pk.eyJ1IjoiYXNiYXJ2ZSIsImEiOiJjajVvOGdpcmwzejNiMzJvODF2dGFqYWcxIn0.rAJZcytC7dbajv0wzWo8Kw';
       self.map = new _mapboxGl2.default.Map({
@@ -301,6 +235,10 @@ define('routes/riskmap/riskmap',["exports", "mapbox-gl"], function (exports, _ma
         } else {
           self.addLayerToMap(self.layers[self.risk]);
         }
+      });
+
+      self.map.on('zoom', function () {
+        console.log(self.map.getZoom());
       });
     };
 
@@ -327,40 +265,9 @@ define('routes/riskmap/riskmap',["exports", "mapbox-gl"], function (exports, _ma
     return RiskMap;
   }();
 });
-define('routes/storm/storm',["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var Storm = exports.Storm = function () {
-    function Storm() {
-      _classCallCheck(this, Storm);
-    }
-
-    Storm.prototype.attached = function attached() {
-      var self = this;
-    };
-
-    return Storm;
-  }();
-});
 define('text!app.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./app.css\"></require>\n  \n  <router-view></router-view>\n</template>\n"; });
-define('text!app.css', ['module'], function(module) { module.exports = "html,\nbody {\n  width: 100%;\n  height: 100%;\n  margin: 0px;\n  padding: 0px;\n}\n"; });
-define('text!routes/flood/flood.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./flood.css\"></require>\n</template>\n"; });
-define('text!resources/styles/themeGuide.css', ['module'], function(module) { module.exports = ""; });
-define('text!routes/gw/gw.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./gw.css\"></require>\n</template>\n"; });
 define('text!routes/riskmap/riskmap.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./riskmap.css\"></require>\n  <require from=\"mapbox-gl/mapbox-gl.css\"></require>\n\n  <div id=\"mapContainer\">\n  </div>\n</template>\n"; });
-define('text!routes/flood/flood.css', ['module'], function(module) { module.exports = ""; });
-define('text!routes/storm/storm.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./storm.css\"></require>\n</template>\n"; });
-define('text!routes/gw/gw.css', ['module'], function(module) { module.exports = ""; });
+define('text!app.css', ['module'], function(module) { module.exports = "html,\nbody {\n  width: 100%;\n  height: 100%;\n  margin: 0px;\n  padding: 0px;\n}\n"; });
+define('text!resources/styles/themeGuide.css', ['module'], function(module) { module.exports = ""; });
 define('text!routes/riskmap/riskmap.css', ['module'], function(module) { module.exports = "#mapContainer {\n  width: 100%;\n  height: 100%;\n  margin: 0px;\n  padding: 0px;\n}\n"; });
-define('text!routes/storm/storm.css', ['module'], function(module) { module.exports = ""; });
 //# sourceMappingURL=app-bundle.js.map
