@@ -1,12 +1,11 @@
 {
-  "name": "STL florida risk maps",
+  "name": "risk-map",
   "type": "project:application",
   "platform": {
     "id": "web",
     "displayName": "Web",
     "output": "scripts",
-    "index": "index.html",
-    "baseDir": "."
+    "index": "index.html"
   },
   "transpiler": {
     "id": "babel",
@@ -20,10 +19,14 @@
     "source": "src/**/*.js"
   },
   "markupProcessor": {
-    "id": "minimum",
-    "displayName": "Minimal Minification",
+    "id": "none",
+    "displayName": "None",
     "fileExtension": ".html",
     "source": "src/**/*.html"
+  },
+  "textProcessor": {
+    "displayName": "Text",
+    "source": "src/**/*.json"
   },
   "lessProcessor": {
     "id": "less",
@@ -48,11 +51,7 @@
   },
   "paths": {
     "root": "src",
-    "resources": "resources",
-    "elements": "resources/elements",
-    "attributes": "resources/attributes",
-    "valueConverters": "resources/value-converters",
-    "bindingBehaviors": "resources/binding-behaviors"
+    "resources": "src/resources"
   },
   "testFramework": {
     "id": "jasmine",
@@ -64,8 +63,7 @@
         "id": "web",
         "displayName": "Web",
         "output": "scripts",
-        "index": "index.html",
-        "baseDir": "."
+        "index": "index.html"
       }
     ],
     "loader": {
@@ -79,7 +77,7 @@
             ".html",
             ".css"
           ],
-          "stub": true
+          "stub": false
         }
       ]
     },
@@ -99,7 +97,6 @@
         "name": "vendor-bundle.js",
         "prepend": [
           "node_modules/bluebird/js/browser/bluebird.core.js",
-          "node_modules/aurelia-cli/lib/resources/scripts/configure-bluebird.js",
           "node_modules/requirejs/require.js"
         ],
         "dependencies": [
@@ -107,9 +104,11 @@
           "aurelia-bootstrapper",
           "aurelia-dependency-injection",
           "aurelia-event-aggregator",
+          "aurelia-fetch-client",
           "aurelia-framework",
           "aurelia-history",
           "aurelia-history-browser",
+          "aurelia-http-client",
           "aurelia-loader",
           "aurelia-loader-default",
           "aurelia-logging",
@@ -140,6 +139,19 @@
             "path": "../node_modules/aurelia-testing/dist/amd",
             "main": "aurelia-testing",
             "env": "dev"
+          },
+          {
+            "name": "jquery",
+            "path": "../node_modules/jquery/dist",
+            "main": "jquery"
+          },
+          {
+            "name": "mapbox-gl",
+            "path": "../node_modules/mapbox-gl/dist",
+            "main": "mapbox-gl",
+            "resources": [
+              "mapbox-gl.css"
+            ]
           }
         ]
       }

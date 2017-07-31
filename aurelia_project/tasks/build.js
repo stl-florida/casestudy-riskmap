@@ -1,41 +1,28 @@
 import gulp from 'gulp';
-import {CLIOptions, build as buildCLI} from 'aurelia-cli';
 import transpile from './transpile';
 import processMarkup from './process-markup';
+import processText from './process-text';
+import processLESS from './process-less';
 import processCSS from './process-css';
-import copyFiles from './copy-files';
-import watch from './watch';
+import {build} from 'aurelia-cli';
 import project from '../aurelia.json';
 
-let build = gulp.series(
+export default gulp.series(
   readProjectConfiguration,
   gulp.parallel(
     transpile,
     processMarkup,
+    processText,
     processLESS,
-    processCSS,
-    copyFiles
+    processCSS
   ),
   writeBundles
 );
 
-let main;
-
-if (CLIOptions.taskName() === 'build' && CLIOptions.hasFlag('watch')) {
-  main = gulp.series(
-    build,
-    (done) => { watch(); done(); }
-  );
-} else {
-  main = build;
-}
-
 function readProjectConfiguration() {
-  return buildCLI.src(project);
+  return build.src(project);
 }
 
 function writeBundles() {
-  return buildCLI.dest();
+  return build.dest();
 }
-
-export { main as default };
