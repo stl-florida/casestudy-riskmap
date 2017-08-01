@@ -19,16 +19,7 @@ export class RiskMap {
   //Fetch & apply layer properties
   addLayerToMap(layer) {
     var self = this;
-    return self.map.addLayer({
-      id: layer.id,
-      type: layer.type,
-      source: layer.source,
-      "source-layer": layer.id,
-      layout: {
-        visibility: 'visible'
-      },
-      paint: layer.paint
-    });
+    return self.map.addLayer(layer, 'waterway-label');
   }
 
   //Aurelia attached hook
@@ -40,23 +31,40 @@ export class RiskMap {
     self.map = new mapboxgl.Map({
       attributionControl: false,
       container: 'mapContainer',
-      center: [-80.25, 26.15],
-      zoom: 11,
-      style: 'mapbox://styles/mapbox/light-v9',
+      center: [-80.165, 26.0197],
+      zoom: 15,
+      style: 'mapbox://styles/mapbox/dark-v9',
       hash: false
     });
 
     //Add navigation controls
-    self.map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+    self.map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
+
+    //Construct popup
+    self.popup = new mapboxgl.Popup({
+      closeButton: false,
+      closeOnClick: true
+    });
+    self.popup.setLngLat([-80.1646, 26.02005])
+              .setHTML('Sunset golfcourse')
+              .addTo(self.map);
 
     //Display layers according to query parameter
     self.map.on('load', () => {
       for (let group in self.properties) {
-        if (group === self.risk) {
+        if (group === self.risk || group === 'default') {
           for (let layer of self.properties[group]) {
             self.addLayerToMap(layer);
           }
         }
+      }
+    });
+
+    self.map.on('zoom', () => {
+      if (self.map.getZoom() > 14) {
+        self.popup.addTo(self.map);
+      } else {
+        self.popup.remove();
       }
     });
   }
