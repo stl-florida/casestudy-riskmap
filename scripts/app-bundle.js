@@ -19,7 +19,7 @@ define('app',['exports'], function (exports) {
     App.prototype.configureRouter = function configureRouter(config, router) {
       config.title = 'RiskMap';
       config.options.pushState = true;
-      config.options.root = '';
+      config.options.root = '/';
       config.map([{ route: '', name: 'map', moduleId: 'routes/riskmap/riskmap' }]);
       config.mapUnknownRoutes({ redirect: '' });
       this.router = router;
@@ -108,6 +108,7 @@ define('resources/layers',['exports'], function (exports) {
           url: 'mapbox://asbarve.b0mn3fbb',
           type: 'vector'
         },
+        'source-layer': 'FLDHVE',
         paint: {
           "fill-color": "#fccf23",
           "fill-opacity": 0.6
@@ -119,6 +120,7 @@ define('resources/layers',['exports'], function (exports) {
           url: 'mapbox://asbarve.1eqmjn9o',
           type: 'vector'
         },
+        'source-layer': 'FLDHAO',
         paint: {
           "fill-color": "#fc610b",
           "fill-opacity": 0.8
@@ -130,6 +132,7 @@ define('resources/layers',['exports'], function (exports) {
           url: 'mapbox://asbarve.4cou1y2j',
           type: 'vector'
         },
+        'source-layer': 'FLDHAE',
         paint: {
           "fill-color": "#c44d3f",
           "fill-opacity": 0.7
@@ -141,6 +144,7 @@ define('resources/layers',['exports'], function (exports) {
           url: 'mapbox://asbarve.758t0cbw',
           type: 'vector'
         },
+        'source-layer': 'FLDHAH',
         paint: {
           "fill-color": "#52d6dd",
           "fill-opacity": 0.5
@@ -152,6 +156,7 @@ define('resources/layers',['exports'], function (exports) {
           url: 'mapbox://asbarve.44qg0o2f',
           type: 'vector'
         },
+        'source-layer': 'FLDHX',
         paint: {
           "fill-color": "#368bd8",
           "fill-opacity": 0.5
@@ -164,6 +169,7 @@ define('resources/layers',['exports'], function (exports) {
           url: 'mapbox://asbarve.41947bz4',
           type: 'vector'
         },
+        'source-layer': 'stormsurge',
         paint: {
           "fill-color": {
             "property": "CAT",
@@ -184,11 +190,12 @@ define('resources/layers',['exports'], function (exports) {
           url: 'mapbox://asbarve.5wvk9kun',
           type: 'vector'
         },
+        'source-layer': 'groundwater',
         paint: {
           "fill-color": {
             property: "DN",
             type: "exponential",
-            stops: [[44, '#d7191c'], [60, '#e24631'], [76, '#ee7446'], [92, '#faa25B'], [108, '#fdc076'], [124, '#fed993'], [140, '#fef2b0'], [156, '#f2f9c5'], [172, '#d8edd2'], [188, '#bee1df'], [204, '#a1d1e5'], [220, '#7ab4d5'], [236, '#5397c5'], [256, '#2c7bb6']]
+            stops: [[40, '#d7191c'], [70, '#e24631'], [100, '#ee7446'], [120, '#faa25b'], [140, '#fdc076'], [160, '#fed993'], [180, '#fef2b0'], [196, '#f2f9c5'], [208, '#d8edd2'], [220, '#bee1df'], [230, '#a1d1e5'], [238, '#7ab4d5'], [246, '#5397c5'], [252, '#2c7bb6']]
           },
           "fill-opacity": 0.8
         }
@@ -199,9 +206,59 @@ define('resources/layers',['exports'], function (exports) {
           url: 'mapbox://asbarve.87xhq483',
           type: 'vector'
         },
+        'source-layer': 'salt_water',
         paint: {
           'line-color': '#f05022',
           'line-width': 2
+        }
+      }],
+      default: [{
+        id: 'golfcourse_base',
+        type: 'line',
+        source: {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {
+                name: 'Sunset golfcourse'
+              },
+              geometry: {
+                type: 'LineString',
+                coordinates: [[-80.16687564286083, 26.022109333950482], [-80.16233181725012, 26.022188276452326], [-80.16225579269295, 26.018577702075035], [-80.16679999185034, 26.018499925562182], [-80.16687564286083, 26.022109333950482]]
+              }
+            }]
+          }
+        },
+        paint: {
+          'line-color': '#f2ffe6',
+          'line-width': 2
+        }
+      }, {
+        id: 'golfcourse',
+        type: 'symbol',
+        source: {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {
+                name: 'Sunset golfcourse'
+              },
+              geometry: {
+                type: 'Point',
+                coordinates: [-80.165, 26.0197]
+              }
+            }]
+          }
+        },
+        layout: {
+          visibility: 'visible',
+          'icon-image': 'golf-15',
+          'icon-size': 1.5,
+          'icon-offset': [0, 0]
         }
       }]
     };
@@ -244,16 +301,7 @@ define('routes/riskmap/riskmap',['exports', 'aurelia-framework', 'mapbox-gl', 'r
 
     RiskMap.prototype.addLayerToMap = function addLayerToMap(layer) {
       var self = this;
-      return self.map.addLayer({
-        id: layer.id,
-        type: layer.type,
-        source: layer.source,
-        "source-layer": layer.id,
-        layout: {
-          visibility: 'visible'
-        },
-        paint: layer.paint
-      });
+      return self.map.addLayer(layer);
     };
 
     RiskMap.prototype.attached = function attached() {
@@ -263,17 +311,17 @@ define('routes/riskmap/riskmap',['exports', 'aurelia-framework', 'mapbox-gl', 'r
       self.map = new _mapboxGl2.default.Map({
         attributionControl: false,
         container: 'mapContainer',
-        center: [-80.25, 26.15],
+        center: [-80.165, 26.0197],
         zoom: 11,
         style: 'mapbox://styles/mapbox/dark-v9',
         hash: false
       });
 
-      self.map.addControl(new _mapboxGl2.default.NavigationControl(), 'top-left');
+      self.map.addControl(new _mapboxGl2.default.NavigationControl(), 'bottom-left');
 
       self.map.on('load', function () {
         for (var group in self.properties) {
-          if (group === self.risk) {
+          if (group === self.risk || group === 'default') {
             for (var _iterator = self.properties[group], _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
               var _ref;
 
