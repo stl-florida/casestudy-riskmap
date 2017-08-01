@@ -19,9 +19,9 @@ define('app',['exports'], function (exports) {
     App.prototype.configureRouter = function configureRouter(config, router) {
       config.title = 'RiskMap';
       config.options.pushState = true;
-      config.options.root = '';
-      config.map([{ route: ':risk', name: 'map', moduleId: 'routes/riskmap/riskmap' }]);
-      config.mapUnknownRoutes({ redirect: 'map' });
+      config.options.root = '/';
+      config.map([{ route: '', name: 'map', moduleId: 'routes/riskmap/riskmap' }]);
+      config.mapUnknownRoutes({ redirect: '' });
       this.router = router;
     };
 
@@ -84,7 +84,130 @@ define('resources/index',["exports"], function (exports) {
   exports.configure = configure;
   function configure(config) {}
 });
-define('routes/riskmap/riskmap',['exports', 'mapbox-gl'], function (exports, _mapboxGl) {
+define('resources/layers',['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var Layers = exports.Layers = function Layers() {
+    _classCallCheck(this, Layers);
+
+    this.properties = {
+      flood: [{
+        id: "FLDHVE",
+        type: 'fill',
+        source: {
+          url: 'mapbox://asbarve.b0mn3fbb',
+          type: 'vector'
+        },
+        paint: {
+          "fill-color": "#fccf23",
+          "fill-opacity": 0.9
+        }
+      }, {
+        id: 'FLDHAO',
+        type: 'fill',
+        source: {
+          url: 'mapbox://asbarve.1eqmjn9o',
+          type: 'vector'
+        },
+        paint: {
+          "fill-color": "#fc610b",
+          "fill-opacity": 0.8
+        }
+      }, {
+        id: 'FLDHAE',
+        type: 'fill',
+        source: {
+          url: 'mapbox://asbarve.4cou1y2j',
+          type: 'vector'
+        },
+        paint: {
+          "fill-color": "#c44d3f",
+          "fill-opacity": 0.7
+        }
+      }, {
+        id: 'FLDHAH',
+        type: 'fill',
+        source: {
+          url: 'mapbox://asbarve.758t0cbw',
+          type: 'vector'
+        },
+        paint: {
+          "fill-color": "#6576a5",
+          "fill-opacity": 0.5
+        }
+      }, {
+        id: 'FLDHX',
+        type: 'fill',
+        source: {
+          url: 'mapbox://asbarve.44qg0o2f',
+          type: 'vector'
+        },
+        paint: {
+          "fill-color": "#368bd8",
+          "fill-opacity": 0.25
+        }
+      }],
+      stormsurge: [{
+        id: 'stormsurge',
+        type: 'fill',
+        source: {
+          url: 'mapbox://asbarve.41947bz4',
+          type: 'vector'
+        },
+        paint: {
+          "fill-color": {
+            "property": "CAT",
+            "type": "categorical",
+            "stops": [["1", "#c1272d"], ["2", "#cd5257"], ["3", "#d97d81"], ["4", "#e6a8ab"], ["5", "#f2d3d5"]]
+          },
+          "fill-opacity": {
+            "property": "CAT",
+            "type": "categorical",
+            "stops": [["1", 0.7], ["2", 0.6], ["3", 0.5], ["4", 0.4], ["5", 0.3]]
+          }
+        }
+      }],
+      groundwater: [{
+        id: 'groundwater',
+        type: 'fill',
+        source: {
+          url: 'mapbox://asbarve.5wvk9kun',
+          type: 'vector'
+        },
+        paint: {
+          "fill-color": {
+            property: "DN",
+            type: "exponential",
+            stops: [[44, '#d7191c'], [60, '#e24631'], [76, '#ee7446'], [92, '#faa25v'], [108, '#fdc076'], [124, '#fed993'], [140, '#fef2b0'], [156, '#f2f9c5'], [172, '#d8edd2'], [188, '#bee1df'], [204, '#a1d1e5'], [220, '#7ab4d5'], [236, '#5397c5'], [256, '#2c7bb6']]
+          },
+          "fill-opacity": 0.8
+        }
+      }, {
+        id: 'salt_water',
+        type: 'line',
+        source: {
+          url: 'mapbox://asbarve.87xhq483',
+          type: 'vector'
+        },
+        paint: {
+          'line-color': '#f05022',
+          'line-width': 3
+        }
+      }]
+    };
+  };
+});
+define('routes/riskmap/riskmap',['exports', 'aurelia-framework', 'mapbox-gl', 'resources/layers'], function (exports, _aureliaFramework, _mapboxGl, _layers) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -106,117 +229,13 @@ define('routes/riskmap/riskmap',['exports', 'mapbox-gl'], function (exports, _ma
     }
   }
 
-  var RiskMap = exports.RiskMap = function () {
-    function RiskMap(EventAggregator) {
+  var _dec, _class;
+
+  var RiskMap = exports.RiskMap = (_dec = (0, _aureliaFramework.inject)(_layers.Layers), _dec(_class = function () {
+    function RiskMap(Layers) {
       _classCallCheck(this, RiskMap);
 
-      this.ea = EventAggregator;
-
-      this.layers = {
-        flood: [{
-          id: "FLDHVE",
-          type: 'fill',
-          source: {
-            url: 'mapbox://asbarve.b0mn3fbb',
-            type: 'vector'
-          },
-          paint: {
-            "fill-color": "#fccf23",
-            "fill-opacity": 0.9
-          }
-        }, {
-          id: 'FLDHAO',
-          type: 'fill',
-          source: {
-            url: 'mapbox://asbarve.1eqmjn9o',
-            type: 'vector'
-          },
-          paint: {
-            "fill-color": "#fc610b",
-            "fill-opacity": 0.8
-          }
-        }, {
-          id: 'FLDHAE',
-          type: 'fill',
-          source: {
-            url: 'mapbox://asbarve.4cou1y2j',
-            type: 'vector'
-          },
-          paint: {
-            "fill-color": "#c44d3f",
-            "fill-opacity": 0.7
-          }
-        }, {
-          id: 'FLDHAH',
-          type: 'fill',
-          source: {
-            url: 'mapbox://asbarve.758t0cbw',
-            type: 'vector'
-          },
-          paint: {
-            "fill-color": "#6576a5",
-            "fill-opacity": 0.5
-          }
-        }, {
-          id: 'FLDHX',
-          type: 'fill',
-          source: {
-            url: 'mapbox://asbarve.44qg0o2f',
-            type: 'vector'
-          },
-          paint: {
-            "fill-color": "#368bd8",
-            "fill-opacity": 0.25
-          }
-        }],
-        stormsurge: [{
-          id: 'stormsurge',
-          type: 'fill',
-          source: {
-            url: 'mapbox://asbarve.41947bz4',
-            type: 'vector'
-          },
-          paint: {
-            "fill-color": {
-              "property": "CAT",
-              "type": "categorical",
-              "stops": [["1", "#c1272d"], ["2", "#cd5257"], ["3", "#d97d81"], ["4", "#e6a8ab"], ["5", "#f2d3d5"]]
-            },
-            "fill-opacity": {
-              "property": "CAT",
-              "type": "categorical",
-              "stops": [["1", 0.7], ["2", 0.6], ["3", 0.5], ["4", 0.4], ["5", 0.3]]
-            }
-          }
-        }],
-        groundwater: [{
-          id: 'groundwater',
-          type: 'fill',
-          source: {
-            url: 'mapbox://asbarve.5wvk9kun',
-            type: 'vector'
-          },
-          paint: {
-            "fill-color": {
-              property: "DN",
-              type: "exponential",
-              stops: [[44, '#d7191c'], [60, '#e24631'], [76, '#ee7446'], [92, '#faa25v'], [108, '#fdc076'], [124, '#fed993'], [140, '#fef2b0'], [156, '#f2f9c5'], [172, '#d8edd2'], [188, '#bee1df'], [204, '#a1d1e5'], [220, '#7ab4d5'], [236, '#5397c5'], [256, '#2c7bb6']]
-            },
-            "fill-opacity": 0.8
-          }
-        }, {
-          id: 'salt_water',
-          type: 'line',
-          source: {
-            url: 'mapbox://asbarve.87xhq483',
-            type: 'vector'
-          },
-          paint: {
-            'line-color': '#f05022',
-            'line-width': 3
-          }
-        }]
-      };
+      this.properties = Layers.properties;
     }
 
     RiskMap.prototype.activate = function activate(param) {
@@ -250,14 +269,12 @@ define('routes/riskmap/riskmap',['exports', 'mapbox-gl'], function (exports, _ma
         hash: false
       });
 
-      self.map.addControl(new _mapboxGl2.default.NavigationControl({}));
+      self.map.addControl(new _mapboxGl2.default.NavigationControl(), 'top-left');
 
       self.map.on('load', function () {
-        for (var group in self.layers) {
-          console.log('checking group: ' + group);
+        for (var group in self.properties) {
           if (group === self.risk) {
-            console.log('group ' + group + ' is active');
-            for (var _iterator = self.layers[group], _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+            for (var _iterator = self.properties[group], _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
               var _ref;
 
               if (_isArray) {
@@ -271,7 +288,6 @@ define('routes/riskmap/riskmap',['exports', 'mapbox-gl'], function (exports, _ma
 
               var layer = _ref;
 
-              console.log(layer.id);
               self.addLayerToMap(layer);
             }
           }
@@ -279,28 +295,8 @@ define('routes/riskmap/riskmap',['exports', 'mapbox-gl'], function (exports, _ma
       });
     };
 
-    RiskMap.prototype.detached = function detached() {
-      var self = this;
-      for (var layer_key in self.layers) {
-        if (layer_key === 'flood') {
-          for (var flood_key in self.layers.flood) {
-            var id = self.layers.flood[flood_key].id;
-            if (self.map.getLayer(id)) {
-              self.map.removeLayer(id);
-              self.map.removeSource(id);
-            }
-          }
-        } else {
-          if (self.map.getLayer(self.layers[layer_key].id)) {
-            self.map.removeLayer(self.layers[layer_key].id);
-            self.map.removeSource(self.layers[layer_key].id);
-          }
-        }
-      }
-    };
-
     return RiskMap;
-  }();
+  }()) || _class);
 });
 define('text!app.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./app.css\"></require>\n  \n  <router-view></router-view>\n</template>\n"; });
 define('text!routes/riskmap/riskmap.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./riskmap.css\"></require>\n  <require from=\"mapbox-gl/mapbox-gl.css\"></require>\n\n  <div id=\"mapContainer\">\n  </div>\n</template>\n"; });
