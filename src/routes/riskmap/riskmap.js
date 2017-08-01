@@ -33,7 +33,7 @@ export class RiskMap {
       container: 'mapContainer',
       center: [-80.165, 26.0197],
       zoom: 15,
-      style: 'mapbox://styles/mapbox/light-v9',
+      style: 'mapbox://styles/mapbox/dark-v9',
       hash: false
     });
 
@@ -45,7 +45,7 @@ export class RiskMap {
       closeButton: false,
       closeOnClick: true
     });
-    self.popup.setLngLat([-80.1646, 26.022176])
+    self.popup.setLngLat([-80.1646, 26.02005])
               .setHTML('Sunset golfcourse')
               .addTo(self.map);
 
@@ -57,6 +57,14 @@ export class RiskMap {
             self.addLayerToMap(layer);
           }
         }
+      }
+    });
+
+    self.map.on('zoom', () => {
+      if (self.map.getZoom() > 14) {
+        self.popup.addTo(self.map);
+      } else {
+        self.popup.remove();
       }
     });
   }

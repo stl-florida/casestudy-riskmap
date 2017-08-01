@@ -162,7 +162,7 @@ export class Layers {
                 [252, '#2c7bb6']
               ]
             },
-            "fill-opacity": 0.8
+            "fill-opacity": 0.7
           }
         },
         {
@@ -211,35 +211,7 @@ export class Layers {
             'line-color': '#f2ffe6',
             'line-width': 2
           }
-        }/*,
-        {
-          id: 'golfcourse',
-          type: 'symbol',
-          source: {
-            type: 'geojson',
-            data: {
-              type: 'FeatureCollection',
-              features: [
-                {
-                  type: 'Feature',
-                  properties: {
-                    name: 'Sunset golfcourse'
-                  },
-                  geometry: {
-                    type: 'Point',
-                    coordinates: [
-                      -80.165,
-                      26.0197
-                    ]
-                  }
-                }
-              ]
-            }
-          },
-          layout: {
-            'icon-image': 'golf-15'
-          }
-        }*/
+        }
       ]
     };
   }
