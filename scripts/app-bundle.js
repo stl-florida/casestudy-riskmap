@@ -110,7 +110,7 @@ define('resources/layers',['exports'], function (exports) {
         },
         paint: {
           "fill-color": "#fccf23",
-          "fill-opacity": 0.9
+          "fill-opacity": 0.6
         }
       }, {
         id: 'FLDHAO',
@@ -142,7 +142,7 @@ define('resources/layers',['exports'], function (exports) {
           type: 'vector'
         },
         paint: {
-          "fill-color": "#6576a5",
+          "fill-color": "#52d6dd",
           "fill-opacity": 0.5
         }
       }, {
@@ -154,7 +154,7 @@ define('resources/layers',['exports'], function (exports) {
         },
         paint: {
           "fill-color": "#368bd8",
-          "fill-opacity": 0.25
+          "fill-opacity": 0.5
         }
       }],
       stormsurge: [{
@@ -168,7 +168,7 @@ define('resources/layers',['exports'], function (exports) {
           "fill-color": {
             "property": "CAT",
             "type": "categorical",
-            "stops": [["1", "#c1272d"], ["2", "#cd5257"], ["3", "#d97d81"], ["4", "#e6a8ab"], ["5", "#f2d3d5"]]
+            "stops": [["1", "#f05124"], ["2", "#c6502b"], ["3", "#a44e30"], ["4", "#844933"], ["5", "#664335"]]
           },
           "fill-opacity": {
             "property": "CAT",
@@ -265,7 +265,7 @@ define('routes/riskmap/riskmap',['exports', 'aurelia-framework', 'mapbox-gl', 'r
         container: 'mapContainer',
         center: [-80.25, 26.15],
         zoom: 11,
-        style: 'mapbox://styles/mapbox/light-v9',
+        style: 'mapbox://styles/mapbox/dark-v9',
         hash: false
       });
 
@@ -299,7 +299,7 @@ define('routes/riskmap/riskmap',['exports', 'aurelia-framework', 'mapbox-gl', 'r
   }()) || _class);
 });
 define('text!app.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./app.css\"></require>\n  <router-view></router-view>\n</template>\n"; });
-define('text!routes/riskmap/riskmap.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./riskmap.css\"></require>\n  <require from=\"mapbox-gl/mapbox-gl.css\"></require>\n\n  <div id=\"mapContainer\">\n  </div>\n\n  <div id=\"legendWrapper\">\n\n    <div if.bind=\"risk==='flood'\" id=\"floodLegend\" class=\"legend\">\n      <h4>FEMA Flood Hazzard Areas</h4>\n      <div><span style=\"background-color: #fccf23\"></span>VE</div>\n      <div><span style=\"background-color: #fc610b\"></span>AO</div>\n      <div><span style=\"background-color: #c44d3f\"></span>AE</div>\n      <div><span style=\"background-color: #6576a5\"></span>AH</div>\n      <div><span style=\"background-color: #368bd8\"></span>X</div>\n    </div>\n\n    <div if.bind=\"risk==='stormsurge'\" id=\"stormLegend\" class=\"legend\">\n      <h4>Flood Extents during Storm Surge for Hurricane</h4>\n      <div><span style=\"background-color: #c1272d\"></span>Category 1</div>\n      <div><span style=\"background-color: #cd5257\"></span>Category 2</div>\n      <div><span style=\"background-color: #d97d81\"></span>Category 3</div>\n      <div><span style=\"background-color: #e6a8ab\"></span>Category 4</div>\n      <div><span style=\"background-color: #f2d3d5\"></span>Category 5</div>\n    </div>\n\n    <div if.bind=\"risk==='groundwater'\" id=\"gwLegend\" class=\"legend\">\n      <h4>Ground Water</h4>\n      <div>Change in depth (ft)<span id=\"groundwaterLegend\"></span>\n        <table>\n          <tr>\n            <td class=\"legendText\">-0.5</td>\n            <td class=\"legendText\">0.5</td>\n            <td class=\"legendText\">1.5</td>\n            <td class=\"legendText\">2.5</td>\n          </tr>\n        </table>\n      </div>\n      <div><span id=\"saltwaterLine\"></span>Salt-water Intrustion</div>\n    </div>\n\n  </div>\n\n</template>\n"; });
+define('text!routes/riskmap/riskmap.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./riskmap.css\"></require>\n  <require from=\"mapbox-gl/mapbox-gl.css\"></require>\n\n  <div id=\"mapContainer\">\n  </div>\n\n  <div id=\"legendWrapper\">\n\n    <div if.bind=\"risk==='flood'\" id=\"floodLegend\" class=\"legend\">\n      <h4>FEMA Flood Hazzard Areas</h4>\n      <div><span style=\"background-color: #e5bd21\"></span>VE</div>\n      <div><span style=\"background-color: #d55a27\"></span>AO</div>\n      <div><span style=\"background-color: #c44d3f\"></span>AE</div>\n      <div><span style=\"background-color: #52d6dd\"></span>AH</div>\n      <div><span style=\"background-color: #4a7491\"></span>X</div>\n    </div>\n\n    <div if.bind=\"risk==='stormsurge'\" id=\"stormLegend\" class=\"legend\">\n      <h4>Flood Extents during Storm Surge for Hurricane</h4>\n      <div><span style=\"background-color: #f05124\"></span>Category 1</div>\n      <div><span style=\"background-color: #c6502b\"></span>Category 2</div>\n      <div><span style=\"background-color: #a44e30\"></span>Category 3</div>\n      <div><span style=\"background-color: #844933\"></span>Category 4</div>\n      <div><span style=\"background-color: #664335\"></span>Category 5</div>\n    </div>\n\n    <div if.bind=\"risk==='groundwater'\" id=\"gwLegend\" class=\"legend\">\n      <h4>Ground Water</h4>\n      <div>Change in depth (ft)<span id=\"groundwaterLegend\"></span>\n        <table>\n          <tr>\n            <td class=\"legendText\">-0.5</td>\n            <td class=\"legendText\">0.5</td>\n            <td class=\"legendText\">1.5</td>\n            <td class=\"legendText\">2.5</td>\n          </tr>\n        </table>\n      </div>\n      <div><span id=\"saltwaterLine\"></span></div>\n    </div>\n\n  </div>\n\n</template>\n"; });
 define('text!app.css', ['module'], function(module) { module.exports = "html,\nbody {\n  width: 100%;\n  height: 100%;\n  margin: 0px;\n  padding: 0px;\n}\n"; });
 define('text!resources/styles/themeGuide.css', ['module'], function(module) { module.exports = ""; });
 define('text!routes/riskmap/riskmap.css', ['module'], function(module) { module.exports = "#mapContainer {\n  width: 100%;\n  height: 100%;\n  margin: 0px;\n  padding: 0px;\n}\n.legend {\n  background-color: #fff;\n  border-radius: 3px;\n  bottom: 20px;\n  width: 120px;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n  font-size: 12px;\n  font-family: 'Helvetica Neue', Arial, sans-serif;\n  padding: 10px;\n  position: absolute;\n  right: 20px;\n  z-index: 1;\n  line-height: 1.5;\n}\n.legend h4 {\n  padding: 0 0 2px 0;\n  margin: 0 0 10px 0;\n  border-bottom: solid 1px black;\n}\n.legend div span {\n  display: inline-block;\n  height: 10px;\n  margin-right: 5px;\n  width: 10px;\n}\n.legend #groundwaterLegend {\n  margin-top: 5px;\n  height: 10px;\n  width: 100%;\n  background: red;\n  /* For browsers that do not support gradients */\n  /* For Safari 5.1 to 6.0 */\n  background: -webkit-linear-gradient(left, #D7191C, #e24631, #ee7446, #faa25b, #fdc076, #fed993, #fef2b0, #f2f9c5, #d8edd2, #bee1df, #a1d1e5, #7ab4d5, #5397c5, #2c7bb6);\n  /* For Opera 11.1 to 12.0 */\n  background: -o-linear-gradient(left, #D7191C, #e24631, #ee7446, #faa25b, #fdc076, #fed993, #fef2b0, #f2f9c5, #d8edd2, #bee1df, #a1d1e5, #7ab4d5, #5397c5, #2c7bb6);\n  /* For Fx 3.6 to 15 */\n  background: -moz-linear-gradient(left, #D7191C, #e24631, #ee7446, #faa25b, #fdc076, #fed993, #fef2b0, #f2f9c5, #d8edd2, #bee1df, #a1d1e5, #7ab4d5, #5397c5, #2c7bb6);\n  /* Standard syntax */\n  background: linear-gradient(to right, #D7191C, #e24631, #ee7446, #faa25b, #fdc076, #fed993, #fef2b0, #f2f9c5, #d8edd2, #bee1df, #a1d1e5, #7ab4d5, #5397c5, #2c7bb6);\n}\n.legend .legendText {\n  width: 40px;\n  text-align: center;\n}\n.legend .legendText:first-child {\n  text-align: left;\n}\n.legend .legendText:last-child {\n  text-align: right;\n}\n.legend #saltwaterLine {\n  border-bottom: solid red 3px;\n  width: 100%;\n  margin-top: 5px;\n}\n"; });

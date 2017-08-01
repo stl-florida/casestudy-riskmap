@@ -42,7 +42,7 @@ export class RiskMap {
       container: 'mapContainer',
       center: [-80.25, 26.15],
       zoom: 11,
-      style: 'mapbox://styles/mapbox/light-v9',
+      style: 'mapbox://styles/mapbox/dark-v9',
       hash: false
     });
 
