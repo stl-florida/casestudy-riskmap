@@ -180,6 +180,7 @@ export class RiskMap {
 
   activate(param) {
     this.risk = param.risk;
+    console.log(this.risk);
   }
 
   addLayerToMap(layer) {
