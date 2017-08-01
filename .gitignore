@@ -1,7 +1,6 @@
 node_modules
 .idea
 .DS_STORE
-scripts
 src/environment.js
 aurelia_project
 src
