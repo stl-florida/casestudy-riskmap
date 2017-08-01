@@ -19,7 +19,7 @@ export class RiskMap {
   //Fetch & apply layer properties
   addLayerToMap(layer) {
     var self = this;
-    return self.map.addLayer(layer);
+    return self.map.addLayer(layer, 'waterway-label');
   }
 
   //Aurelia attached hook
@@ -32,13 +32,22 @@ export class RiskMap {
       attributionControl: false,
       container: 'mapContainer',
       center: [-80.165, 26.0197],
-      zoom: 11,
+      zoom: 15,
       style: 'mapbox://styles/mapbox/light-v9',
       hash: false
     });
 
     //Add navigation controls
     self.map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
+
+    //Construct popup
+    self.popup = new mapboxgl.Popup({
+      closeButton: false,
+      closeOnClick: true
+    });
+    self.popup.setLngLat([-80.1646, 26.022176])
+              .setHTML('Sunset golfcourse')
+              .addTo(self.map);
 
     //Display layers according to query parameter
     self.map.on('load', () => {

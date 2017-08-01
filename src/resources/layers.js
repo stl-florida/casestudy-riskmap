@@ -211,7 +211,7 @@ export class Layers {
             'line-color': '#f2ffe6',
             'line-width': 2
           }
-        },
+        }/*,
         {
           id: 'golfcourse',
           type: 'symbol',
@@ -237,12 +237,9 @@ export class Layers {
             }
           },
           layout: {
-            visibility: 'visible',
-            'icon-image': 'golf-15',
-            'icon-size': 1.5,
-            'icon-offset': [0, 0]
+            'icon-image': 'golf-15'
           }
-        }
+        }*/
       ]
     };
   }

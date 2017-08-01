@@ -8,7 +8,7 @@
   <div id="legendWrapper">
 
     <div if.bind="risk==='flood'" id="floodLegend" class="legend">
-      <h4>FEMA Flood Hazzard Areas</h4>
+      <h4>FEMA Flood Hazard Areas</h4>
       <div><span style="background-color: #fccf23"></span>VE</div>
       <div><span style="background-color: #fc610b"></span>AO</div>
       <div><span style="background-color: #c44d3f"></span>AE</div>
@@ -17,7 +17,7 @@
     </div>
 
     <div if.bind="risk==='stormsurge'" id="stormLegend" class="legend">
-      <h4>Flood Extents during Storm Surge for Hurricane</h4>
+      <h4>Storm Surge Extents</h4>
       <div><span style="background-color: #c1272d"></span>Category 1</div>
       <div><span style="background-color: #cd5257"></span>Category 2</div>
       <div><span style="background-color: #d97d81"></span>Category 3</div>
@@ -27,13 +27,14 @@
 
     <div if.bind="risk==='groundwater'" id="gwLegend" class="legend">
       <h4>Ground Water</h4>
-      <div>Change in depth (ft)<span id="groundwaterLegend"></span>
+      <div>Change in depth (ft)
+        <span id="groundwaterLegend"></span>
         <table>
           <tr>
-            <td class="legendText">-0.5</td>
-            <td class="legendText">0.5</td>
-            <td class="legendText">1.5</td>
-            <td class="legendText">2.5</td>
+            <td class="legendText bar">2.5'</td>
+            <td class="legendText bar">1.5'</td>
+            <td class="legendText bar">0.5'</td>
+            <td class="legendText bar">-0.5'</td>
           </tr>
         </table>
       </div>
