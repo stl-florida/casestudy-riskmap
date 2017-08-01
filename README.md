@@ -26,5 +26,21 @@ The project structure is as follows:
     * **Storm surge extents**: http://flux.land?risk=stormsurge
     * **Projected ground water table rise**: http://flux.land?risk=groundwater
 ___
+### To build
+* Start the development server
+    * `npm start` This will start a dev server on http://localhost:9000
+    * append /flood, /stormsurge or /groundwater to test respective layers
+* Commit & push changes in master branch
+* To generate a production build:
+    * Switch to staging branch: `git checkout gh-pages`
+    * Merge changes: `git merge master`
+    * Run `npm run-script stage` to build scripts bundle
+    * Upload the following to the deployment destination protecting the structure:
+```
+scripts/*
+index.html
+favicon.ico
+```
+___
 ### Contribution guidelines
 - Issues are tracked on [github](https://github.com/stl-florida/casestudy-riskmap/issues).
