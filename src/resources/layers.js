@@ -152,7 +152,7 @@ export class Layers {
                 [140, '#fdc076'],
                 [160, '#fed993'],
                 [180, '#fef2b0'],
-                
+
                 [196, '#f2f9c5'],
                 [208, '#d8edd2'],
                 [220, '#bee1df'],
@@ -175,7 +175,7 @@ export class Layers {
           'source-layer': 'salt_water',
           paint: {
             'line-color': '#f05022',
-            'line-width': 3
+            'line-width': 2
           }
         }
       ],
