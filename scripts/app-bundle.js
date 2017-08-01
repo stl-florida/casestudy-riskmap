@@ -21,7 +21,7 @@ define('app',['exports'], function (exports) {
       config.options.pushState = true;
       config.options.root = '/';
       config.map([{ route: '', name: 'map', moduleId: 'routes/riskmap/riskmap' }]);
-      config.mapUnknownRoutes({ redirect: 'riskmap' });
+      config.mapUnknownRoutes({ redirect: '' });
       this.router = router;
     };
 
@@ -304,8 +304,8 @@ define('routes/riskmap/riskmap',['exports', 'mapbox-gl'], function (exports, _ma
   }();
 });
 define('text!app.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./app.css\"></require>\n  \n  <router-view></router-view>\n</template>\n"; });
-define('text!routes/riskmap/riskmap.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./riskmap.css\"></require>\n  <require from=\"mapbox-gl/mapbox-gl.css\"></require>\n\n  <div id=\"mapContainer\">\n  </div>\n</template>\n"; });
 define('text!app.css', ['module'], function(module) { module.exports = "html,\nbody {\n  width: 100%;\n  height: 100%;\n  margin: 0px;\n  padding: 0px;\n}\n"; });
 define('text!resources/styles/themeGuide.css', ['module'], function(module) { module.exports = ""; });
+define('text!routes/riskmap/riskmap.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./riskmap.css\"></require>\n  <require from=\"mapbox-gl/mapbox-gl.css\"></require>\n\n  <div id=\"mapContainer\">\n  </div>\n</template>\n"; });
 define('text!routes/riskmap/riskmap.css', ['module'], function(module) { module.exports = "#mapContainer {\n  width: 100%;\n  height: 100%;\n  margin: 0px;\n  padding: 0px;\n}\n"; });
 //# sourceMappingURL=app-bundle.js.map

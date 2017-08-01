@@ -6,7 +6,7 @@ export class App {
     config.map([
       {route: '', name: 'map', moduleId: 'routes/riskmap/riskmap'}
     ]);
-    config.mapUnknownRoutes({redirect: 'riskmap'});
+    config.mapUnknownRoutes({redirect: ''});
     this.router = router;
   }
 
