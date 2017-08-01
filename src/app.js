@@ -4,12 +4,12 @@ export class App {
     config.options.pushState = true;
     config.options.root = '';
     config.map([
-      {route: ':risk', name: 'map', moduleId: 'routes/riskmap/riskmap'}/*,
+      {route: ':risk', name: 'riskmap', moduleId: 'routes/riskmap/riskmap'}/*,
       {route: 'stormsurge',   name: 'stormsurge',  moduleId: 'routes/storm/storm'},
       {route: 'flood',   name: 'flood',  moduleId: 'routes/flood/flood'},
       {route: 'groundwater',   name: 'groundwater',  moduleId: 'routes/gw/gw'}*/
     ]);
-    config.mapUnknownRoutes({redirect: 'map'});
+    config.mapUnknownRoutes({redirect: 'riskmap'});
     this.router = router;
   }
 
