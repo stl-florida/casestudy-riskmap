@@ -8,26 +8,56 @@
 }
 
 .legend {
-    background-color: #fff;
-    border-radius: 3px;
-    bottom: 30px;
-    width: 100px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.10);
-    font-size: 12px;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    padding: 10px;
-    position: absolute;
-    right: 10px;
-    z-index: 1;
-    & h4 {
-      padding: 0 0 2px 0;
-      margin: 0 0 10px 0;
-      border-bottom: solid 1px black;
+  background-color: #fff;
+  border-radius: 3px;
+  bottom: 20px;
+  width: 120px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+  font-size: 12px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  padding: 10px;
+  position: absolute;
+  right: 20px;
+  z-index: 1;
+  line-height: 1.5;
+  & h4 {
+    padding: 0 0 2px 0;
+    margin: 0 0 10px 0;
+    border-bottom: solid 1px black;
+  }
+  & div span {
+    display: inline-block;
+    height: 10px;
+    margin-right: 5px;
+    width: 10px;
+  }
+  & #groundwaterLegend {
+    margin-top: 5px;
+    height: 10px;
+    width: 100%;
+    background: red; /* For browsers that do not support gradients */
+    /* For Safari 5.1 to 6.0 */
+    background: -webkit-linear-gradient(left,#D7191C,#e24631,#ee7446,#faa25b,#fdc076,#fed993,#fef2b0,#f2f9c5,#d8edd2,#bee1df,#a1d1e5,#7ab4d5,#5397c5,#2c7bb6);
+    /* For Opera 11.1 to 12.0 */
+    background: -o-linear-gradient(left,#D7191C,#e24631,#ee7446,#faa25b,#fdc076,#fed993,#fef2b0,#f2f9c5,#d8edd2,#bee1df,#a1d1e5,#7ab4d5,#5397c5,#2c7bb6);
+    /* For Fx 3.6 to 15 */
+    background: -moz-linear-gradient(left,#D7191C,#e24631,#ee7446,#faa25b,#fdc076,#fed993,#fef2b0,#f2f9c5,#d8edd2,#bee1df,#a1d1e5,#7ab4d5,#5397c5,#2c7bb6);
+    /* Standard syntax */
+    background: linear-gradient(to right, #D7191C,#e24631,#ee7446,#faa25b,#fdc076,#fed993,#fef2b0,#f2f9c5,#d8edd2,#bee1df,#a1d1e5,#7ab4d5,#5397c5,#2c7bb6);
+  }
+  & .legendText {
+    width: 40px;
+    text-align: center;
+    &:first-child {
+      text-align: left;
     }
-    & div span {
-        display: inline-block;
-        height: 10px;
-        margin-right: 5px;
-        width: 10px;
+    &:last-child {
+      text-align: right;
     }
+  }
+  & #saltwaterLine {
+    border-bottom: solid red 3px;
+    width: 100%;
+    margin-top: 5px;
+  }
 }

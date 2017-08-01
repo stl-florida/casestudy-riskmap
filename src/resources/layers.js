@@ -141,7 +141,7 @@ export class Layers {
                 [44, '#d7191c'],
                 [60, '#e24631'],
                 [76, '#ee7446'],
-                [92, '#faa25v'],
+                [92, '#faa25B'],
                 [108, '#fdc076'],
                 [124, '#fed993'],
                 [140, '#fef2b0'],
@@ -166,7 +166,7 @@ export class Layers {
           },
           paint: {
             'line-color': '#f05022',
-            'line-width': 3
+            'line-width': 2
           }
         }
       ]
