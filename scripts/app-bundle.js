@@ -19,8 +19,8 @@ define('app',['exports'], function (exports) {
     App.prototype.configureRouter = function configureRouter(config, router) {
       config.title = 'RiskMap';
       config.options.pushState = true;
-      config.options.root = '';
-      config.map([{ route: '/:risk', name: 'map', moduleId: 'routes/riskmap/riskmap' }]);
+      config.options.root = '/';
+      config.map([{ route: '', name: 'map', moduleId: 'routes/riskmap/riskmap' }]);
       config.mapUnknownRoutes({ redirect: 'riskmap' });
       this.router = router;
     };
