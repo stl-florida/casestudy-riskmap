@@ -12,7 +12,7 @@ export class Layers {
           'source-layer': 'FLDHVE',
           paint: {
             "fill-color": "#fccf23",
-            "fill-opacity": 0.9
+            "fill-opacity": 0.6
           }
         },
         {
@@ -50,7 +50,7 @@ export class Layers {
           },
           'source-layer': 'FLDHAH',
           paint: {
-            "fill-color": "#6576a5",
+            "fill-color": "#52d6dd",
             "fill-opacity": 0.5
           }
         },
@@ -64,7 +64,7 @@ export class Layers {
           'source-layer': 'FLDHX',
           paint: {
             "fill-color": "#368bd8",
-            "fill-opacity": 0.25
+            "fill-opacity": 0.5
           }
         }
       ],
@@ -83,23 +83,23 @@ export class Layers {
             "stops": [
               [
                 "1",
-                "#c1272d"
+                "#f05124"
               ],
               [
                 "2",
-                "#cd5257"
+                "#c6502b"
               ],
               [
                 "3",
-                "#d97d81"
+                "#a44e30"
               ],
               [
                 "4",
-                "#e6a8ab"
+                "#844933"
               ],
               [
                 "5",
-                "#f2d3d5"
+                "#664335"
               ]
             ]
           },
