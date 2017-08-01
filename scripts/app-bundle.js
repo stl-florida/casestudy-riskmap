@@ -19,7 +19,7 @@ define('app',['exports'], function (exports) {
     App.prototype.configureRouter = function configureRouter(config, router) {
       config.title = 'RiskMap';
       config.options.pushState = true;
-      config.options.root = '/';
+      config.options.root = '';
       config.map([{ route: '', name: 'map', moduleId: 'routes/riskmap/riskmap' }]);
       config.mapUnknownRoutes({ redirect: '' });
       this.router = router;
@@ -298,9 +298,9 @@ define('routes/riskmap/riskmap',['exports', 'aurelia-framework', 'mapbox-gl', 'r
     return RiskMap;
   }()) || _class);
 });
-define('text!app.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./app.css\"></require>\n  \n  <router-view></router-view>\n</template>\n"; });
-define('text!routes/riskmap/riskmap.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./riskmap.css\"></require>\n  <require from=\"mapbox-gl/mapbox-gl.css\"></require>\n\n  <div id=\"mapContainer\">\n  </div>\n</template>\n"; });
+define('text!app.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./app.css\"></require>\n  <router-view></router-view>\n</template>\n"; });
+define('text!routes/riskmap/riskmap.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./riskmap.css\"></require>\n  <require from=\"mapbox-gl/mapbox-gl.css\"></require>\n\n  <div id=\"mapContainer\">\n  </div>\n\n  <div id=\"legendWrapper\">\n\n    <div if.bind=\"risk==='flood'\" id=\"floodLegend\" class=\"legend\">\n      <h4>FEMA Flood Hazzard Areas</h4>\n      <div><span style=\"background-color: #723122\"></span>VE</div>\n      <div><span style=\"background-color: #8B4225\"></span>AH</div>\n      <div><span style=\"background-color: #A25626\"></span>AO</div>\n    </div>\n\n    <div if.bind=\"risk==='stormsurge'\" id=\"floodLegend\" class=\"legend\">\n      <h4>Storm Surge</h4>\n      <div><span style=\"background-color: #723122\"></span>AE</div>\n      <div><span style=\"background-color: #8B4225\"></span>AH</div>\n      <div><span style=\"background-color: #A25626\"></span>AO</div>\n    </div>\n\n    <div if.bind=\"risk==='groundwater'\" id=\"floodLegend\" class=\"legend\">\n      <h4>Ground Water</h4>\n      <div><span style=\"background-color: #723122\"></span>AE</div>\n      <div><span style=\"background-color: #8B4225\"></span>AH</div>\n      <div><span style=\"background-color: #A25626\"></span>AO</div>\n    </div>\n\n  </div>\n\n</template>\n"; });
 define('text!app.css', ['module'], function(module) { module.exports = "html,\nbody {\n  width: 100%;\n  height: 100%;\n  margin: 0px;\n  padding: 0px;\n}\n"; });
 define('text!resources/styles/themeGuide.css', ['module'], function(module) { module.exports = ""; });
-define('text!routes/riskmap/riskmap.css', ['module'], function(module) { module.exports = "#mapContainer {\n  width: 100%;\n  height: 100%;\n  margin: 0px;\n  padding: 0px;\n}\n"; });
+define('text!routes/riskmap/riskmap.css', ['module'], function(module) { module.exports = "#mapContainer {\n  width: 100%;\n  height: 100%;\n  margin: 0px;\n  padding: 0px;\n}\n.legend {\n  background-color: #fff;\n  border-radius: 3px;\n  bottom: 30px;\n  width: 100px;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n  font-size: 12px;\n  font-family: 'Helvetica Neue', Arial, sans-serif;\n  padding: 10px;\n  position: absolute;\n  right: 10px;\n  z-index: 1;\n}\n.legend h4 {\n  padding: 0 0 2px 0;\n  margin: 0 0 10px 0;\n  border-bottom: solid 1px black;\n}\n.legend div span {\n  display: inline-block;\n  height: 10px;\n  margin-right: 5px;\n  width: 10px;\n}\n"; });
 //# sourceMappingURL=app-bundle.js.map

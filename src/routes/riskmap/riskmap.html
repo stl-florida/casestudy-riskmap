@@ -4,4 +4,30 @@
 
   <div id="mapContainer">
   </div>
+
+  <div id="legendWrapper">
+
+    <div if.bind="risk==='flood'" id="floodLegend" class="legend">
+      <h4>FEMA Flood Hazzard Areas</h4>
+      <div><span style="background-color: #723122"></span>VE</div>
+      <div><span style="background-color: #8B4225"></span>AH</div>
+      <div><span style="background-color: #A25626"></span>AO</div>
+    </div>
+
+    <div if.bind="risk==='stormsurge'" id="floodLegend" class="legend">
+      <h4>Storm Surge</h4>
+      <div><span style="background-color: #723122"></span>AE</div>
+      <div><span style="background-color: #8B4225"></span>AH</div>
+      <div><span style="background-color: #A25626"></span>AO</div>
+    </div>
+
+    <div if.bind="risk==='groundwater'" id="floodLegend" class="legend">
+      <h4>Ground Water</h4>
+      <div><span style="background-color: #723122"></span>AE</div>
+      <div><span style="background-color: #8B4225"></span>AH</div>
+      <div><span style="background-color: #A25626"></span>AO</div>
+    </div>
+
+  </div>
+
 </template>
