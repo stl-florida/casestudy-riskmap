@@ -20,11 +20,11 @@ export class RiskMap {
       groundwaterTitle: 'Change in the level of groundwater for projected 2060 sea level rise',
       waterdepth:'Change in the level of ground water - Base Case ground water data for 1990-1999 with NRC 3 Sea Level Rise projections',
       saltwater:'Extent of saltwater intrusion in ground water.',
-      cat1:'Surge Zone based on Hurricaine Categories 1',
-      cat2:'Surge Zone based on Hurricaine Categories 2',
-      cat3:'Surge Zone based on Hurricaine Categories 3',
-      cat4:'Surge Zone based on Hurricaine Categories 4',
-      cat5:'Surge Zone based on Hurricaine Categories 5',
+      cat1:'Potential surge zone in category 1 hurricane',
+      cat2:'Potential surge zone in category 2 hurricane',
+      cat3:'Potential surge zone in category 3 hurricane',
+      cat4:'Potential surge zone in category 4 hurricane',
+      cat5:'Potential surge zone in category 5 hurricane',
 
     };
   }
