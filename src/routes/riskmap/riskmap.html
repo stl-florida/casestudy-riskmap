@@ -6,6 +6,7 @@
   </div>
 
   <div id="tooltipWrapper" if.bind="hover">
+    <b>Layer Information</b>
     <p>${hoverstring}</p>
   </div>
 
@@ -22,16 +23,16 @@
 
     <div if.bind="risk==='stormsurge'" id="stormLegend" class="legend">
       <h4 mouseover.delegate="showTooltip('stormsurgeTitle')" mouseout.delegate="hideTooltip()">Storm Surge Extents</h4>
-      <div><span style="background-color: #f05124"></span>Category 1</div>
-      <div><span style="background-color: #c6502b"></span>Category 2</div>
-      <div><span style="background-color: #a44e30"></span>Category 3</div>
-      <div><span style="background-color: #844933"></span>Category 4</div>
-      <div><span style="background-color: #664335"></span>Category 5</div>
+      <div mouseover.delegate="showTooltip('cat1')" mouseout.delegate="hideTooltip()"><span style="background-color: #f05124"></span>Cat 1</div>
+      <div mouseover.delegate="showTooltip('cat2')" mouseout.delegate="hideTooltip()"><span style="background-color: #c6502b"></span>Cat 2</div>
+      <div mouseover.delegate="showTooltip('cat3')" mouseout.delegate="hideTooltip()"><span style="background-color: #a44e30"></span>Cat 3</div>
+      <div mouseover.delegate="showTooltip('cat4')" mouseout.delegate="hideTooltip()"><span style="background-color: #844933"></span>Cat 4</div>
+      <div mouseover.delegate="showTooltip('cat5')" mouseout.delegate="hideTooltip()"><span style="background-color: #664335"></span>Cat 5</div>
     </div>
 
     <div if.bind="risk==='groundwater'" id="gwLegend" class="legend">
       <h4 mouseover.delegate="showTooltip('groundwaterTitle')" mouseout.delegate="hideTooltip()">Ground Water</h4>
-      <div>Change in depth (ft)
+      <div mouseover.delegate="showTooltip('waterdepth')" mouseout.delegate="hideTooltip()">Change in depth (ft)
         <span id="groundwaterLegend"></span>
         <table>
           <tr>
@@ -42,9 +43,9 @@
           </tr>
         </table>
       </div>
-      <div>
-        <span id="saltwaterLine"></span>
-        extent of saltwater intrusion
+      <div mouseover.delegate="showTooltip('saltwater')" mouseout.delegate="hideTooltip()">
+        <span id="saltwaterLine" ></span>
+        saltwater intrusion
       </div>
     </div>
 
