@@ -9,6 +9,16 @@ export class RiskMap {
   //Aurelia constructor hook
   constructor(Layers) {
     this.properties = Layers.properties;
+    this.tooltip = {
+      floodtitle: 'The SFHA is the area where the National Flood Insurance Programs NFIP floodplain management regulations must be enforced and the area where the mandatory purchase of flood insurance applies.',
+      ve: 'High Risk Coastal Area: Coastal areas with a 1% or greater chance of flooding and an additional hazard associated with storm waves.',
+      ao: 'River or stream flood hazard areas, and areas with a 1% or greater chance of shallow flooding each year, usually in the form of sheet flow, with an average depth ranging from 1 to 3 feet.',
+      ae: 'The base floodplain where base flood elevation in relation to NGVD is provided.',
+      ah: 'Areas with a 1% annual chance of shallow flooding, usually in the form of a pond, with an average depth ranging from 1 to 3 feet. These areas have a 26% chance of flooding over the life of a 30‐year mortgage.',
+      x: 'Area of moderate flood hazard, usually the area between the limits of the 100‐ year and 500‐year floods. B Zones are also used to designate base floodplains oflesser hazards, such as areas protected by levees from 100‐year flood, or shallow flooding areas with average depths of less than one foot or drainage areas less than 1 square mile',
+      stormsurgeTitle: 'featureset depicting Surge Zones, was created using a Surge Modeling application created for the Florida Statewide Regional Evacuation Update Study for each category of storm (1-5). Data courtesy- Florida Division of Emergency Management',
+      groundwaterTitle: 'Change in the level of groundwater for projected 2060 sea level rise',
+    };
   }
 
   //Aurelia activate hook
@@ -68,4 +78,14 @@ export class RiskMap {
       }
     });
   }
+
+  showTooltip(string) {
+    this.hover = true;
+    this.hoverstring = this.tooltip[string];
+    }
+
+  hideTooltip(){
+    this.hover = null;
+  }
+
 }

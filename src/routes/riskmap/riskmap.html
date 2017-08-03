@@ -5,19 +5,23 @@
   <div id="mapContainer">
   </div>
 
-  <div id="legendWrapper">
+  <div id="tooltipWrapper" if.bind="hover">
+    <p>${hoverstring}</p>
+  </div>
 
+  <div id="legendWrapper">
     <div if.bind="risk==='flood'" id="floodLegend" class="legend">
-      <h4>FEMA Flood Hazzard Areas</h4>
-      <div><span style="background-color: #e5bd21"></span>VE</div>
-      <div><span style="background-color: #d55a27"></span>AO</div>
-      <div><span style="background-color: #c44d3f"></span>AE</div>
-      <div><span style="background-color: #52d6dd"></span>AH</div>
-      <div><span style="background-color: #4a7491"></span>X</div>
+      <h4 mouseover.delegate="showTooltip('floodtitle')" mouseout.delegate="hideTooltip()">FEMA Special Flood Hazard Areas</h4>
+      <div mouseover.delegate="showTooltip('ve')" mouseout.delegate="hideTooltip()"><span style="background-color: #e5bd21"></span>VE</div>
+      <div mouseover.delegate="showTooltip('ao')" mouseout.delegate="hideTooltip()"><span style="background-color: #d55a27"></span>AO</div>
+      <div mouseover.delegate="showTooltip('ae')" mouseout.delegate="hideTooltip()"><span style="background-color: #c44d3f"></span>AE</div>
+      <div mouseover.delegate="showTooltip('ah')" mouseout.delegate="hideTooltip()"><span style="background-color: #52d6dd"></span>AH</div>
+      <div mouseover.delegate="showTooltip('x')" mouseout.delegate="hideTooltip()"><span style="background-color: #4a7491"></span>X</div>
+
     </div>
 
     <div if.bind="risk==='stormsurge'" id="stormLegend" class="legend">
-      <h4>Flood Extents during Storm Surge for Hurricane</h4>
+      <h4 mouseover.delegate="showTooltip('stormsurgeTitle')" mouseout.delegate="hideTooltip()">Storm Surge Extents</h4>
       <div><span style="background-color: #f05124"></span>Category 1</div>
       <div><span style="background-color: #c6502b"></span>Category 2</div>
       <div><span style="background-color: #a44e30"></span>Category 3</div>
@@ -26,7 +30,7 @@
     </div>
 
     <div if.bind="risk==='groundwater'" id="gwLegend" class="legend">
-      <h4>Ground Water</h4>
+      <h4 mouseover.delegate="showTooltip('groundwaterTitle')" mouseout.delegate="hideTooltip()">Ground Water</h4>
       <div>Change in depth (ft)
         <span id="groundwaterLegend"></span>
         <table>
@@ -40,7 +44,7 @@
       </div>
       <div>
         <span id="saltwaterLine"></span>
-        Saltwater intrusion
+        extent of saltwater intrusion
       </div>
     </div>
 
